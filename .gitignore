@@ -62,6 +62,6 @@ typings/
 # environment variables
 .env
 
-test/fixture-projects/hardhat-project/artifacts
-test/fixture-projects/hardhat-project/cache
-front/
+artifacts
+cache
+typechain-types
