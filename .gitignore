@@ -65,3 +65,4 @@ typings/
 artifacts
 cache
 typechain-types
+abi
