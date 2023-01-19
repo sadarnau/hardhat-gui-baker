@@ -1,14 +1,16 @@
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
 
 export function Profile() {
   const { address, connector, isConnected } = useAccount();
-  const {
-    connect,
-    connectors,
-    error,
-    isLoading,
-    pendingConnector,
-  } = useConnect();
+  const { data: ensAvatar } = useEnsAvatar({ address });
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
   const { disconnect } = useDisconnect();
 
   if (isConnected) {

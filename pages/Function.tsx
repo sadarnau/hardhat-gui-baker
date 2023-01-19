@@ -1,7 +1,8 @@
-import { SamTokenAbi } from "../abi/SamToken";
 import { Contract } from "ethers";
 import { ParamType } from "ethers/src.ts/utils";
+import React, { useState } from "react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
+import { SamTokenAbi } from "../abi/SamToken";
 import {
   ExtractAbiFunctions,
   ExtractAbiFunction,
@@ -9,7 +10,7 @@ import {
   ExtractAbiFunctionNames,
   Abi,
 } from "abitype";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 // TO DO : export in type file
 export type ExtractAbiFunctionParams<
@@ -61,7 +62,6 @@ function Function({ contract, functionName }: Props) {
     writeAsync: sendTransac,
   } = useContractWrite({
     ...config,
-    mode: "prepared",
   });
 
   return (

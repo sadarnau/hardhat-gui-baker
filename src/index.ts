@@ -1,24 +1,68 @@
-import { task } from "hardhat/config";
+import { task, types } from "hardhat/config";
 import { spawnSync } from "child_process";
+import { ethers, hardhatArguments } from "hardhat";
+import * as fs from "fs";
 
-task("front", "create front").setAction(async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-  await hre.run("compile");
-  hre.run("node");
-  const contractTest = await hre.ethers.getContractFactory("Coin");
-  const deployedContract = await contractTest.deploy(accounts[0].address);
-  console.log("deployedContract:", deployedContract.address);
+const pluginPath: string = "node_modules/test-plugin-hardhat-sam/";
 
-  // spawnSync("ls", { stdio: [process.stdin, process.stdout, process.stderr] });
-  spawnSync("cp", ["-r", "artifacts", "../../../contract-front/src"]);
-  spawnSync("cp", [
-    "-r",
-    "typechain-types",
-    "../../../front/contract-front/src",
-  ]);
+task("front", "create front")
+  .addParam("contract", "The contract name")
+  .addOptionalParam(
+    "deploy",
+    "Path to the deploy script (default : scripts/deploy.ts)",
+    "scripts/deploy.ts",
+    types.string
+  )
+  .addOptionalParam("cargs", "Constructor arguments")
+  .setAction(async (taskArgs, hre) => {
+    // console.log(taskArgs);
 
-  spawnSync("yarn", ["start"], {
-    cwd: "../../../contract-front",
-    // stdio: [process.stdin, process.stdout, process.stderr],
+    // spawnSync("ls", { stdio: [process.stdin, process.stdout, process.stderr] });
+
+    // const accounts = await hre.ethers.getSigners();
+
+    // await hre.run("compile");
+
+    // hre.run("node");
+
+    // if script :
+    // await hre.run("run", { script: taskArgs.deploy });
+    // const contract = await hre.artifacts.readArtifact(taskArgs.contract);
+
+    // if no script :
+    // const contract = await hre.ethers.getContractFactory(taskArgs.contract);
+    // const contractDeployed = await contract.deploy(
+    //   taskArgs.cargs ? taskArgs.cargs : ""
+    // );
+
+    spawnSync("cp", ["-r", "artifacts", pluginPath + "contract-front/src"]);
+    spawnSync("cp", [
+      "-r",
+      "typechain-types",
+      pluginPath + "contract-front/src",
+    ]);
+
+    const file = pluginPath + "contract-front/src/App.tsx";
+    const newInterface = taskArgs.contract + "Interface";
+    const newImport: string =
+      "import " +
+      newInterface +
+      ' from "./artifacts/contracts/' +
+      taskArgs.contract +
+      ".sol" +
+      "/" +
+      taskArgs.contract +
+      '.json";\nimport { ' +
+      taskArgs.contract +
+      ' } from "./typechain-types";\n';
+
+    const data = fs.readFileSync(file); //read existing contents into data
+    const buf = Buffer.from(newImport);
+    fs.writeFileSync(file, buf); //write new data
+    fs.appendFileSync(file, data);
+
+    // spawnSync("yarn", ["start"], {
+    //   cwd: pluginPath,
+    //   // stdio: [process.stdin, process.stdout, process.stderr],
+    // });
   });
-});

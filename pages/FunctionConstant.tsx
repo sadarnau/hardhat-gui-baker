@@ -1,7 +1,9 @@
-import { SamTokenAbi } from "../abi/SamToken";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { ParamType } from "ethers/src.ts/utils";
-import { usePrepareContractWrite, useContractWrite } from "wagmi";
+import React, { useState } from "react";
+import { useContractRead } from "wagmi";
+import { SamTokenAbi } from "../abi/SamToken";
+import { contracts, SamToken } from "../typechain-types";
 import {
   ExtractAbiFunctions,
   ExtractAbiFunction,
@@ -9,9 +11,23 @@ import {
   ExtractAbiFunctionNames,
   Abi,
 } from "abitype";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-// TO DO : export in type file
+// version 0.1 :
+// const handleChange = (event, i) => {
+//   setInputsMap((prev) => ({ ...prev, [i]: event.target.value }));
+// };
+
+// const handleClick = () => {
+//   console.log(inputsMap);
+//   callMe();
+// };
+// const [inputsMap, setInputsMap] = useState<Record<number, Result2>>({});
+
+// value={inputsMap[i]}
+// onChange={(event) => handleChange(event, i)}
+// name={arg.name ? arg.name : "arg"}
+
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
   TMethod extends ExtractAbiFunctionNames<TAbi>
@@ -19,7 +35,7 @@ export type ExtractAbiFunctionParams<
 
 type Props = {
   contract: Contract;
-  functionName: ExtractAbiFunctions<typeof SamTokenAbi, "nonpayable">["name"];
+  functionName: ExtractAbiFunctions<typeof SamTokenAbi, "view">["name"];
 };
 
 function displayName(arg: ParamType) {
@@ -27,7 +43,7 @@ function displayName(arg: ParamType) {
   return `${arg.name} (${arg.type})`;
 }
 
-function Function({ contract, functionName }: Props) {
+function FunctionConstant({ contract, functionName }: Props) {
   type Result2 = ExtractAbiFunctionParams<
     typeof SamTokenAbi,
     typeof functionName
@@ -40,28 +56,20 @@ function Function({ contract, functionName }: Props) {
     formState: { errors },
   } = useForm<Record<string, Result2>>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = (data: any) => {
     console.log(data);
-    await prepare();
-    if (config) sendTransac();
+    callMe();
   };
 
-  const { data: config, refetch: prepare } = usePrepareContractWrite({
+  const { data, refetch: callMe } = useContractRead({
     address: contract.address,
     abi: SamTokenAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,
-  });
-
-  const {
-    data: dataTransac,
-    isLoading,
-    isSuccess,
-    writeAsync: sendTransac,
-  } = useContractWrite({
-    ...config,
-    mode: "prepared",
+    onSuccess(data) {
+      console.log("Success", data);
+    },
   });
 
   return (
@@ -81,4 +89,4 @@ function Function({ contract, functionName }: Props) {
   );
 }
 
-export default Function;
+export default FunctionConstant;
