@@ -1,5 +1,4 @@
-import { SamTokenAbi } from "../abi/SamToken";
-import { contracts, SamToken } from "../typechain-types";
+import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
 import { ParamType } from "ethers/src.ts/utils";
 import { useContractRead } from "wagmi";

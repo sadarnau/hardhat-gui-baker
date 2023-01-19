@@ -35,7 +35,9 @@ task("front", "create front")
     //   taskArgs.cargs ? taskArgs.cargs : ""
     // );
 
-    spawnSync("cp", ["-r", "artifacts", pluginPath + "contract-front/src"]);
+    // TO DO : do not need anymore ?
+    // spawnSync("cp", ["-r", "artifacts", pluginPath + "contract-front/src"]);
+
     spawnSync("cp", [
       "-r",
       "typechain-types",

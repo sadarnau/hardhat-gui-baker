@@ -1,6 +1,4 @@
-import { SamTokenAbi } from "../abi/SamToken";
-import SamTokenInterface from "../artifacts/contracts/SamToken.sol/SamToken.json";
-import { SamToken } from "../typechain-types/contracts/SamToken";
+import { ContractAbi, ContractType } from "./ContractContext";
 import { ethers, Contract } from "ethers";
 import {
   WagmiConfig,
@@ -62,11 +60,11 @@ function App() {
   const client = new QueryClient();
   const deployedCoin = new ethers.Contract(
     "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    SamTokenInterface.abi
-  ) as SamToken;
+    ContractAbi
+  ) as ContractType;
   const tok = useContract({
     address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    abi: SamTokenAbi,
+    abi: ContractAbi,
   });
 
   return (
