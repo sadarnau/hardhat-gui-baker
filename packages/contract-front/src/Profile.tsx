@@ -16,7 +16,7 @@ export function Profile() {
       <div>
         <div>{address}</div>
         <div>Connected to {connector?.name}</div>
-        <button onClick={() => disconnect()}>Disconnect</button>
+        <button onClick={disconnect}>Disconnect</button>
       </div>
     );
   }
