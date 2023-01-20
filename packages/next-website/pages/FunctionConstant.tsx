@@ -1,9 +1,7 @@
-import { Contract, ethers } from "ethers";
+import { ContractAbi } from "./ContractContext";
+import { Contract } from "ethers";
 import { ParamType } from "ethers/src.ts/utils";
-import React, { useState } from "react";
 import { useContractRead } from "wagmi";
-import { SamTokenAbi } from "../abi/SamToken";
-import { contracts, SamToken } from "../typechain-types";
 import {
   ExtractAbiFunctions,
   ExtractAbiFunction,
@@ -11,7 +9,7 @@ import {
   ExtractAbiFunctionNames,
   Abi,
 } from "abitype";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 // version 0.1 :
 // const handleChange = (event, i) => {
@@ -35,7 +33,7 @@ export type ExtractAbiFunctionParams<
 
 type Props = {
   contract: Contract;
-  functionName: ExtractAbiFunctions<typeof SamTokenAbi, "view">["name"];
+  functionName: ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
 };
 
 function displayName(arg: ParamType) {
@@ -45,7 +43,7 @@ function displayName(arg: ParamType) {
 
 function FunctionConstant({ contract, functionName }: Props) {
   type Result2 = ExtractAbiFunctionParams<
-    typeof SamTokenAbi,
+    typeof ContractAbi,
     typeof functionName
   >;
 
@@ -63,7 +61,7 @@ function FunctionConstant({ contract, functionName }: Props) {
 
   const { data, refetch: callMe } = useContractRead({
     address: contract.address,
-    abi: SamTokenAbi,
+    abi: ContractAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,

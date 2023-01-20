@@ -63,6 +63,8 @@ task("front", "create front")
     fs.writeFileSync(file, buf); //write new data
     fs.appendFileSync(file, data);
 
+    // const { getArtifact } = deployments; // TO DO : check how to use
+
     // spawnSync("yarn", ["start"], {
     //   cwd: pluginPath,
     //   // stdio: [process.stdin, process.stdout, process.stderr],

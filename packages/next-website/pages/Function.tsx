@@ -1,8 +1,7 @@
+import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
 import { ParamType } from "ethers/src.ts/utils";
-import React, { useState } from "react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
-import { SamTokenAbi } from "../abi/SamToken";
 import {
   ExtractAbiFunctions,
   ExtractAbiFunction,
@@ -10,7 +9,7 @@ import {
   ExtractAbiFunctionNames,
   Abi,
 } from "abitype";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 // TO DO : export in type file
 export type ExtractAbiFunctionParams<
@@ -20,7 +19,7 @@ export type ExtractAbiFunctionParams<
 
 type Props = {
   contract: Contract;
-  functionName: ExtractAbiFunctions<typeof SamTokenAbi, "nonpayable">["name"];
+  functionName: ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
 };
 
 function displayName(arg: ParamType) {
@@ -30,7 +29,7 @@ function displayName(arg: ParamType) {
 
 function Function({ contract, functionName }: Props) {
   type Result2 = ExtractAbiFunctionParams<
-    typeof SamTokenAbi,
+    typeof ContractAbi,
     typeof functionName
   >;
 
@@ -44,12 +43,12 @@ function Function({ contract, functionName }: Props) {
   const onSubmit = async (data: any) => {
     console.log(data);
     await prepare();
-    if (config) sendTransac();
+    sendTransac();
   };
 
   const { data: config, refetch: prepare } = usePrepareContractWrite({
     address: contract.address,
-    abi: SamTokenAbi,
+    abi: ContractAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,
@@ -62,6 +61,7 @@ function Function({ contract, functionName }: Props) {
     writeAsync: sendTransac,
   } = useContractWrite({
     ...config,
+    mode: "prepared",
   });
 
   return (
