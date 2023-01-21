@@ -21,7 +21,8 @@
     "prepublishOnly": "npm run build",
     "website": "yarn --cwd packages/next-website dev",
     "fork": "yarn --cwd packages/hardhat hardhat node",
-    "deploy": "yarn --cwd packages/hardhat hardhat run scripts/deployTok.ts --network localhost"
+    "deploy": "yarn --cwd packages/hardhat hardhat run scripts/deployTok.ts --network localhost",
+    "clean": "rm -rf dist yarn-error"
   },
   "files": [
     "dist/src/",
