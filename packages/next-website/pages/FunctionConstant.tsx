@@ -76,13 +76,16 @@ function FunctionConstant({ contract, functionName }: Props) {
       {contract.interface.functions[functionName].inputs.map((arg, i) => {
         return (
           <input
+            className="input input-primary"
             key={arg.name}
             placeholder={displayName(arg)}
             {...register(arg.name)}
           />
         );
       })}
-      <button onClick={handleSubmit(onSubmit)}>Submit</button>
+      <button className="btn btn-outline" onClick={handleSubmit(onSubmit)}>
+        Submit
+      </button>
     </div>
   );
 }
