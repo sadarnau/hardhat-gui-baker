@@ -12,7 +12,6 @@
     "hardhat",
     "hardhat-plugin"
   ],
-  "private": "true",
   "workspaces": [
     "packages/*"
   ],
