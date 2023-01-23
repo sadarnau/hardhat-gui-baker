@@ -24,6 +24,7 @@
     "watch": "tsc -w",
     "prepublishOnly": "npm run build",
     "w": "yarn workspace next-website",
+    "h": "yarn workspace hardhat-utils",
     "website": "yarn w dev",
     "fork": "yarn --cwd packages/hardhat hardhat node",
     "deploy": "yarn --cwd packages/hardhat hardhat run scripts/deployTok.ts --network localhost",
@@ -47,8 +48,5 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^4.0.3"
-  },
-  "peerDependencies": {
-    "hardhat": "^2.0.0"
   }
 }
