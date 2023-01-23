@@ -1,7 +1,7 @@
 {
-  "name": "test-plugin-hardhat-sam",
+  "name": "hardhat-front",
   "version": "0.0.2",
-  "description": "Hardhat TypeScript plugin boilerplate",
+  "description": "Hardhat TypeScript plugin to frontify smartcontracts",
   "author": "Sam",
   "license": "MIT",
   "main": "dist/src/index.js",
@@ -12,6 +12,9 @@
     "hardhat",
     "hardhat-plugin"
   ],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
     "lint": "tslint --config tslint.json --project tsconfig.json",
@@ -19,46 +22,30 @@
     "build": "tsc",
     "watch": "tsc -w",
     "prepublishOnly": "npm run build",
-    "website": "yarn --cwd packages/next-website dev",
+    "w": "yarn workspace next-website",
+    "h": "yarn workspace hardhat-utils",
+    "website": "yarn w dev",
     "fork": "yarn --cwd packages/hardhat hardhat node",
     "deploy": "yarn --cwd packages/hardhat hardhat run scripts/deployTok.ts --network localhost",
-    "clean": "rm -rf dist yarn-error"
+    "clean": "rm -rf dist yarn-error.log"
   },
   "files": [
     "dist/src/",
     "src/"
   ],
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.2.0",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@typechain/ethers-v5": "^10.1.0",
-    "@typechain/hardhat": "^6.1.3",
     "@types/chai": "^4.1.7",
     "@types/fs-extra": "^5.0.4",
     "@types/mocha": "^5.2.6",
     "@types/node": "^8.10.38",
     "chai": "^4.2.0",
-    "child_process": "^1.0.2",
-    "ethereum-waffle": "^3.4.4",
-    "ethers": "^5.7.1",
-    "fs": "^0.0.1-security",
-    "hardhat": "^2.12.6",
-    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat": "^2.0.0",
     "mocha": "^7.1.2",
     "prettier": "2.0.5",
-    "replace-in-file": "^6.3.5",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typechain": "^8.1.0",
-    "typescript": "^4.0.3",
-    "wagmi": "^0.7.5"
-  },
-  "peerDependencies": {
-    "hardhat": "^2.0.0"
-  },
-  "dependencies": {
-    "react-dom": "^18.2.0"
+    "typescript": "^4.0.3"
   }
 }
