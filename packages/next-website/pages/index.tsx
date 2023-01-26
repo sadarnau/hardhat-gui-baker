@@ -10,7 +10,7 @@ function FList({ contract }: { contract: Contract }) {
       return (
         <FunctionConstant key={arg} functionName={arg} contract={contract} />
       );
-    else return <Function key={arg} functionName={arg} contract={contract} />;
+    return <Function key={arg} functionName={arg} contract={contract} />;
   });
 }
 
@@ -20,8 +20,10 @@ export default function Home() {
     ContractAbi
   ) as ContractType;
   return (
-    <div>
-      <ConnectButton />
+    <div className=" m-5">
+      <div className="mt-5">
+        <ConnectButton />
+      </div>
       <div>
         <FList contract={deployedCoin}></FList>
       </div>

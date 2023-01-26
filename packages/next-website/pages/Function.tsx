@@ -33,6 +33,8 @@ function Function({ contract, functionName }: Props) {
     typeof functionName
   >;
 
+  const nbArgs = contract.interface.functions[functionName].inputs.length;
+
   const {
     register,
     handleSubmit,
@@ -65,20 +67,25 @@ function Function({ contract, functionName }: Props) {
   });
 
   return (
-    <div>
-      <h3>{functionName}</h3>
+    <div className="my-5">
+      <h3 className={`${!nbArgs ? "inline" : ""} mr-4`}>
+        {functionName.slice(0, functionName.indexOf("("))}
+      </h3>
       {contract.interface.functions[functionName].inputs.map((arg, i) => {
         return (
           <input
-            className="input input-primary"
+            className="input input-secondary input-md h-8 border-2 mr-4"
             key={arg.name}
             placeholder={displayName(arg)}
             {...register(arg.name)}
           />
         );
       })}
-      <button className="btn btn-outline" onClick={handleSubmit(onSubmit)}>
-        Submit
+      <button
+        className="min-h-8 btn btn-outline  input-xs input-primary border-2 h-6"
+        onClick={handleSubmit(onSubmit)}
+      >
+        Send
       </button>
     </div>
   );
