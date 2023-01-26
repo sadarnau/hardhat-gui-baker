@@ -12,9 +12,13 @@
     "hardhat",
     "hardhat-plugin"
   ],
-  "workspaces": [
-    "packages/*"
-  ],
+  "private": "true",
+  "workspaces": {
+    "packages": [
+      "packages/next-website",
+      "packages/hardhat-utils"
+    ]
+  },
   "scripts": {
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
     "lint": "tslint --config tslint.json --project tsconfig.json",
@@ -25,8 +29,8 @@
     "w": "yarn workspace next-website",
     "h": "yarn workspace hardhat-utils",
     "website": "yarn w dev",
-    "fork": "yarn --cwd packages/hardhat hardhat node",
-    "deploy": "yarn --cwd packages/hardhat hardhat run scripts/deployTok.ts --network localhost",
+    "fork": "yarn h hardhat node",
+    "deploy": "yarn h hardhat run scripts/deployTok.ts --network localhost",
     "clean": "rm -rf dist yarn-error.log"
   },
   "files": [
