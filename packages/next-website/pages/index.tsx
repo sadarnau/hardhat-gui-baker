@@ -48,8 +48,8 @@ export default function Home() {
     ContractAbi
   ) as ContractType;
   return (
-    <div className=" m-5">
-      <div className="mt-5 left-0">
+    <div className="m-5">
+      <div className="mt-5">
         <ConnectButton />
       </div>
       {/* <button

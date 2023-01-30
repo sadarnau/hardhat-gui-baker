@@ -71,26 +71,32 @@ function Function({ contract, functionName }: Props) {
   });
 
   return (
-    <div className="my-5">
-      <h3 className={`${!nbArgs ? "inline" : ""} mr-4`}>
-        {functionName.slice(0, functionName.indexOf("("))}
-      </h3>
-      {contract.interface.functions[functionName].inputs.map((arg, i) => {
-        return (
-          <input
-            className="input input-secondary input-md h-8 border-2 mr-4"
-            key={arg.name}
-            placeholder={displayName(arg)}
-            {...register(arg.name)}
-          />
-        );
-      })}
-      <button
-        className="min-h-8 btn btn-outline input-xs input-primary border-2 h-6"
-        onClick={handleSubmit(onSubmit)}
-      >
-        Send
-      </button>
+    <div className="my-5 grid grid-cols-12 w-[600px] ">
+      <div className="mt-3 col-span-11">
+        <h3 className={`${!nbArgs ? "inline" : ""}`}>
+          {functionName.slice(0, functionName.indexOf("("))}
+        </h3>
+        <div className="grid grid-cols-2">
+          {contract.interface.functions[functionName].inputs.map((arg, i) => {
+            return (
+              <input
+                className="input input-secondary input-md h-8 border-2 mt-1 mr-4"
+                key={arg.name}
+                placeholder={displayName(arg)}
+                {...register(arg.name)}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex flex-col justify-end ">
+        <button
+          className="min-h-8 w-14 mb-0 btn btn-outline input-primary input-xs border-2 h-6"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 }
