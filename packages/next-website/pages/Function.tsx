@@ -45,25 +45,29 @@ function Function({ contract, functionName }: Props) {
   const onSubmit = async (data: any) => {
     console.log(data);
     await prepare();
-    sendTransac();
+    // ready ? sendTransac() : null;
   };
 
-  const { data: config, refetch: prepare } = usePrepareContractWrite({
+  const {
+    data: config,
+    refetch: prepare,
+    isSuccess: ready,
+  } = usePrepareContractWrite({
     address: contract.address,
     abi: ContractAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,
+    onSuccess() {
+      sendTransac();
+    },
   });
 
-  const {
-    data: dataTransac,
-    isLoading,
-    isSuccess,
-    writeAsync: sendTransac,
-  } = useContractWrite({
-    ...config,
-    mode: "prepared",
+  const { data: dataTransac, writeAsync: sendTransac } = useContractWrite({
+    ...config!,
+    async onSuccess(data) {
+      console.log(await data.wait());
+    },
   });
 
   return (
@@ -82,7 +86,7 @@ function Function({ contract, functionName }: Props) {
         );
       })}
       <button
-        className="min-h-8 btn btn-outline  input-xs input-primary border-2 h-6"
+        className="min-h-8 btn btn-outline input-xs input-primary border-2 h-6"
         onClick={handleSubmit(onSubmit)}
       >
         Send
