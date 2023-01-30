@@ -75,7 +75,7 @@ function FunctionConstant({ contract, functionName }: Props) {
         );
       })}
       <button
-        className="min-h-8 btn btn-outline  input-xs input-primary border-2 h-6"
+        className="min-h-8 btn btn-outline input-xs input-info border-2 h-6"
         onClick={handleSubmit(onSubmit)}
       >
         Call

@@ -1,9 +1,11 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import FunctionConstant from "./FunctionConstant";
+
 import { ethers, Contract } from "ethers";
 import Function from "./Function";
 import { ContractAbi, ContractType } from "./ContractContext";
 import { useState } from "react";
+import ToggleButton from "./ToggleButton";
 
 function FList({
   contract,
@@ -50,23 +52,27 @@ export default function Home() {
       <div className="mt-5 left-0">
         <ConnectButton />
       </div>
+      {/* <button
+        onClick={() => setDisplayConstant(!displayConstant)}
+        className={`mr-2 min-h-8 btn btn-outline input-xs input-primary border-2 h-6 ${
+          displayConstant ? "input-info" : "input-secondary bg-secondary"
+        }`}
+      >
+        Constant Functions
+      </button> */}
+      <ToggleButton
+        on={displayWrite}
+        setOn={setDisplayWrite}
+        message={"Write Functions"}
+        color={"input-primary"}
+      />
+      <ToggleButton
+        on={displayConstant}
+        setOn={setDisplayConstant}
+        message={"Constant Functions"}
+        color={"input-info"}
+      />
       <div>
-        <button
-          onClick={() => setDisplayConstant(!displayConstant)}
-          className={`mr-2 min-h-8 btn btn-outline input-xs input-primary border-2 h-6 ${
-            displayConstant ? "input-info" : "input-secondary bg-secondary"
-          }`}
-        >
-          Constant Functions
-        </button>
-        <button
-          onClick={() => setDisplayWrite(!displayWrite)}
-          className={`m-2 min-h-8 btn btn-outline input-xs border-2 h-6 ${
-            displayWrite ? "input-info" : "input-secondary bg-secondary"
-          }`}
-        >
-          Write Functions
-        </button>
         <FList
           contract={deployedCoin}
           displayConstant={displayConstant}
