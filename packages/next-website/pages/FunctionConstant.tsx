@@ -12,21 +12,6 @@ import {
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-// version 0.1 :
-// const handleChange = (event, i) => {
-//   setInputsMap((prev) => ({ ...prev, [i]: event.target.value }));
-// };
-
-// const handleClick = () => {
-//   console.log(inputsMap);
-//   callMe();
-// };
-// const [inputsMap, setInputsMap] = useState<Record<number, Result2>>({});
-
-// value={inputsMap[i]}
-// onChange={(event) => handleChange(event, i)}
-// name={arg.name ? arg.name : "arg"}
-
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
   TMethod extends ExtractAbiFunctionNames<TAbi>
