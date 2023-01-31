@@ -2,71 +2,72 @@ import { task, types } from "hardhat/config";
 import { spawnSync } from "child_process";
 import { ethers, hardhatArguments } from "hardhat";
 import * as fs from "fs";
+import { exportAbi } from "./artifactsMover";
+import { replaceInFileSync } from "replace-in-file";
+import { writeFileSync } from "fs";
 
 const pluginPath: string = "node_modules/test-plugin-hardhat-sam/";
+const pagesPath: string = pluginPath + "packages/next-website/pages";
 
 task("front", "create front")
   .addParam("contract", "The contract name")
+  .addOptionalParam("deploy", "Path to the deploy script")
   .addOptionalParam(
-    "deploy",
-    "Path to the deploy script (default : scripts/deploy.ts)",
-    "scripts/deploy.ts",
+    "net",
+    "Wich network will be used",
+    "localhost",
     types.string
   )
-  .addOptionalParam("cargs", "Constructor arguments")
   .setAction(async (taskArgs, hre) => {
-    // console.log(taskArgs);
+    if (!(await hre.artifacts.artifactExists(taskArgs.contract)))
+      // TODO : throw hardhat error
+      throw new Error("No contract found with this name");
 
-    // spawnSync("ls", { stdio: [process.stdin, process.stdout, process.stderr] });
+    await hre.run("compile");
 
-    // const accounts = await hre.ethers.getSigners();
-
-    // await hre.run("compile");
-
-    // hre.run("node");
+    // TODO : if network params, lanch node
+    // await hre.run("node");
 
     // if script :
-    // await hre.run("run", { script: taskArgs.deploy });
-    // const contract = await hre.artifacts.readArtifact(taskArgs.contract);
+    if (taskArgs.deploy)
+      await hre.run("run", {
+        script: taskArgs.deploy,
+        network: taskArgs.net,
+      });
 
-    // if no script :
-    // const contract = await hre.ethers.getContractFactory(taskArgs.contract);
-    // const contractDeployed = await contract.deploy(
-    //   taskArgs.cargs ? taskArgs.cargs : ""
-    // );
+    const contract = await hre.artifacts.readArtifact(taskArgs.contract);
 
-    // TO DO : do not need anymore ?
-    // spawnSync("cp", ["-r", "artifacts", pluginPath + "contract-front/src"]);
+    const fileContent = `export const ${
+      contract.contractName
+    }Abi = ${JSON.stringify(contract.abi, null, 2)} as const;\n`;
+    writeFileSync(pagesPath + `/${contract.contractName}Abi.ts`, fileContent);
 
-    spawnSync("cp", [
-      "-r",
-      "typechain-types",
-      pluginPath + "contract-front/src",
-    ]);
+    spawnSync("cp", ["-r", "typechain-types", pagesPath]);
 
-    const file = pluginPath + "contract-front/src/App.tsx";
-    const newInterface = taskArgs.contract + "Interface";
-    const newImport: string =
-      "import " +
-      newInterface +
-      ' from "./artifacts/contracts/' +
-      taskArgs.contract +
-      ".sol" +
-      "/" +
-      taskArgs.contract +
-      '.json";\nimport { ' +
-      taskArgs.contract +
-      ' } from "./typechain-types";\n';
+    spawnSync("cp", ["ContractContextExample.ts", "ContractContext.ts"], {
+      cwd: pagesPath,
+    });
 
-    const data = fs.readFileSync(file); //read existing contents into data
-    const buf = Buffer.from(newImport);
-    fs.writeFileSync(file, buf); //write new data
-    fs.appendFileSync(file, data);
+    replaceInFileSync({
+      files: pagesPath + "/ContractContext.ts",
+      from: /\/\//g,
+      to: "",
+    });
 
-    // const { getArtifact } = deployments; // TO DO : check how to use
+    replaceInFileSync({
+      files: pagesPath + "/ContractContext.ts",
+      from: /ToChangeAbi/g,
+      to: contract.contractName + "Abi",
+    });
 
-    // spawnSync("yarn", ["start"], {
-    //   cwd: pluginPath,
-    //   // stdio: [process.stdin, process.stdout, process.stderr],
-    // });
+    replaceInFileSync({
+      files: pagesPath + "/ContractContext.ts",
+      from: /ToChangeType/g,
+      to: contract.contractName,
+    });
+
+    console.log("you can now go to : localhost:3000");
+    spawnSync("yarn", ["website"], {
+      cwd: pluginPath,
+    });
   });

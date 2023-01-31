@@ -42,6 +42,7 @@ function FunctionConstant({ contract, functionName }: Props) {
     formState: { errors },
   } = useForm<Record<string, Result2>>();
 
+  // TODO : change to func
   const onSubmit = (data: any) => {
     console.log(data);
     callMe();
