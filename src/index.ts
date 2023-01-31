@@ -3,8 +3,8 @@ import { spawnSync } from "child_process";
 import { replaceInFileSync } from "replace-in-file";
 import { writeFileSync } from "fs";
 
-const pluginPath: string = "node_modules/test-plugin-hardhat-sam/";
-const pagesPath: string = pluginPath + "packages/next-website/pages";
+const pluginPath: string = "node_modules/hardhat-gui-baker/";
+const pagesPath: string = pluginPath + "next-website/pages";
 
 task("gui-baker", "Create a simple front to test your smartcontract")
   .addParam("contract", "The contract name")
