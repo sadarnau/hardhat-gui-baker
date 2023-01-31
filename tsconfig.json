@@ -7,11 +7,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "strict": true,
-    "rootDirs": ["./src", "./test"],
+    "rootDirs": ["./src"],
     "esModuleInterop": true,
     "lib": ["ES2020"],
     "resolveJsonModule": true
   },
   "exclude": ["dist", "node_modules"],
-  "include": ["./test", "./src"]
+  "include": ["./src"]
 }

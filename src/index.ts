@@ -61,5 +61,6 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     console.log("you can now go to : localhost:3000");
     spawnSync("yarn", ["website"], {
       cwd: pluginPath,
+      stdio: [0, 1, 2],
     });
   });
