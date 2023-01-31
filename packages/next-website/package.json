@@ -14,6 +14,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "daisyui": "^2.47.0",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
     "ethers": "^5.7.2",
@@ -21,7 +22,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.4",
-    "wagmi": "^0.10.14"
+    "wagmi": "^0.9.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

@@ -10,21 +10,7 @@ import {
   Abi,
 } from "abitype";
 import { useForm } from "react-hook-form";
-
-// version 0.1 :
-// const handleChange = (event, i) => {
-//   setInputsMap((prev) => ({ ...prev, [i]: event.target.value }));
-// };
-
-// const handleClick = () => {
-//   console.log(inputsMap);
-//   callMe();
-// };
-// const [inputsMap, setInputsMap] = useState<Record<number, Result2>>({});
-
-// value={inputsMap[i]}
-// onChange={(event) => handleChange(event, i)}
-// name={arg.name ? arg.name : "arg"}
+import { useState } from "react";
 
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
@@ -46,6 +32,8 @@ function FunctionConstant({ contract, functionName }: Props) {
     typeof ContractAbi,
     typeof functionName
   >;
+  const [result, setResult] = useState("");
+  const nbArgs = contract.interface.functions[functionName].inputs.length;
 
   const {
     register,
@@ -54,6 +42,7 @@ function FunctionConstant({ contract, functionName }: Props) {
     formState: { errors },
   } = useForm<Record<string, Result2>>();
 
+  // TODO : change to func
   const onSubmit = (data: any) => {
     console.log(data);
     callMe();
@@ -67,22 +56,38 @@ function FunctionConstant({ contract, functionName }: Props) {
     args: Object.values(watch()) as any,
     onSuccess(data) {
       console.log("Success", data);
+      setResult(data.toString());
     },
   });
 
   return (
-    <div>
-      <h3>{functionName}</h3>
-      {contract.interface.functions[functionName].inputs.map((arg, i) => {
-        return (
-          <input
-            key={arg.name}
-            placeholder={displayName(arg)}
-            {...register(arg.name)}
-          />
-        );
-      })}
-      <button onClick={handleSubmit(onSubmit)}>Submit</button>
+    <div className="my-5 grid grid-cols-12 w-[600px] ">
+      <div className="col-span-11">
+        <h3 className={`${!nbArgs ? "inline" : ""} mr-4`}>
+          {functionName.slice(0, functionName.indexOf("("))}
+        </h3>
+        <div className="grid grid-cols-2 ">
+          {contract.interface.functions[functionName].inputs.map((arg, i) => {
+            return (
+              <input
+                className="input input-secondary input-md h-8 border-2 mr-4"
+                key={arg.name}
+                placeholder={displayName(arg)}
+                {...register(arg.name)}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex flex-col justify-end">
+        <button
+          className="min-h-8 w-14 btn btn-outline input-xs input-info border-2 h-6"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Read
+        </button>
+      </div>
+      {result === "" ? null : <p className="inline ml-4">{result}</p>}
     </div>
   );
 }

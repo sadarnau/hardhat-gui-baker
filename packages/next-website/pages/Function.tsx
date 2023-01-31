@@ -33,6 +33,8 @@ function Function({ contract, functionName }: Props) {
     typeof functionName
   >;
 
+  const nbArgs = contract.interface.functions[functionName].inputs.length;
+
   const {
     register,
     handleSubmit,
@@ -43,40 +45,58 @@ function Function({ contract, functionName }: Props) {
   const onSubmit = async (data: any) => {
     console.log(data);
     await prepare();
-    sendTransac();
+    // ready ? sendTransac() : null;
   };
 
-  const { data: config, refetch: prepare } = usePrepareContractWrite({
+  const {
+    data: config,
+    refetch: prepare,
+    isSuccess: ready,
+  } = usePrepareContractWrite({
     address: contract.address,
     abi: ContractAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,
+    onSuccess() {
+      sendTransac();
+    },
   });
 
-  const {
-    data: dataTransac,
-    isLoading,
-    isSuccess,
-    writeAsync: sendTransac,
-  } = useContractWrite({
-    ...config,
-    mode: "prepared",
+  const { data: dataTransac, writeAsync: sendTransac } = useContractWrite({
+    ...config!,
+    async onSuccess(data) {
+      console.log(await data.wait());
+    },
   });
 
   return (
-    <div>
-      <h3>{functionName}</h3>
-      {contract.interface.functions[functionName].inputs.map((arg, i) => {
-        return (
-          <input
-            key={arg.name}
-            placeholder={displayName(arg)}
-            {...register(arg.name)}
-          />
-        );
-      })}
-      <button onClick={handleSubmit(onSubmit)}>Submit</button>
+    <div className="my-5 grid grid-cols-12 w-[600px] ">
+      <div className="mt-3 col-span-11">
+        <h3 className={`${!nbArgs ? "inline" : ""}`}>
+          {functionName.slice(0, functionName.indexOf("("))}
+        </h3>
+        <div className="grid grid-cols-2">
+          {contract.interface.functions[functionName].inputs.map((arg, i) => {
+            return (
+              <input
+                className="input input-secondary input-md h-8 border-2 mt-1 mr-4"
+                key={arg.name}
+                placeholder={displayName(arg)}
+                {...register(arg.name)}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex flex-col justify-end ">
+        <button
+          className="min-h-8 w-14 mb-0 btn btn-outline input-primary input-xs border-2 h-6"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 }
