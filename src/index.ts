@@ -1,23 +1,15 @@
 import { task, types } from "hardhat/config";
 import { spawnSync } from "child_process";
-import { ethers, hardhatArguments } from "hardhat";
-import * as fs from "fs";
-import { exportAbi } from "./artifactsMover";
 import { replaceInFileSync } from "replace-in-file";
 import { writeFileSync } from "fs";
 
 const pluginPath: string = "node_modules/test-plugin-hardhat-sam/";
 const pagesPath: string = pluginPath + "packages/next-website/pages";
 
-task("front", "create front")
+task("gui-baker", "Create a simple front to test your smartcontract")
   .addParam("contract", "The contract name")
-  .addOptionalParam("deploy", "Path to the deploy script")
-  .addOptionalParam(
-    "net",
-    "Wich network will be used",
-    "localhost",
-    types.string
-  )
+  .addOptionalParam("optDeploy", "Optional : Path to the deploy script")
+  .addOptionalParam("optNetwork", "Optional : Wich network will be used")
   .setAction(async (taskArgs, hre) => {
     if (!(await hre.artifacts.artifactExists(taskArgs.contract)))
       // TODO : throw hardhat error

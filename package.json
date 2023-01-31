@@ -1,7 +1,7 @@
 {
-  "name": "hardhat-front",
-  "version": "0.0.2",
-  "description": "Hardhat TypeScript plugin to frontify smartcontracts",
+  "name": "hardhat-gui-baker",
+  "version": "0.0.1",
+  "description": "Hardhat plugin to bake GUI for tastfull smartcontracts",
   "author": "Sam",
   "license": "MIT",
   "main": "dist/src/index.js",
@@ -31,7 +31,7 @@
     "website": "yarn w dev",
     "fork": "yarn h hardhat node",
     "deploy": "yarn h hardhat run scripts/deployTok.ts --network localhost",
-    "clean": "rm -rf dist yarn-error.log"
+    "clean": "rm -rf dist yarn-error.log && yarn h clean && yarn w clean"
   },
   "files": [
     "dist/src/",
