@@ -1,10 +1,10 @@
-import { task, types } from "hardhat/config";
+import { task } from "hardhat/config";
 import { spawnSync } from "child_process";
 import { replaceInFileSync } from "replace-in-file";
 import { writeFileSync } from "fs";
 
-const pluginPath: string = "node_modules/hardhat-gui-baker/";
-const pagesPath: string = pluginPath + "next-website/pages";
+const componentsPath: string = "next-website/components";
+const plugin: string = "node_modules/hardhat-gui-baker";
 
 task("gui-baker", "Create a simple front to test your smartcontract")
   .addParam("contract", "The contract name")
@@ -29,38 +29,53 @@ task("gui-baker", "Create a simple front to test your smartcontract")
 
     const contract = await hre.artifacts.readArtifact(taskArgs.contract);
 
+    console.log("Creating your GUI recipe...");
+    const test = spawnSync("cp", ["-r", plugin + "/next-website", "."], {});
+
+    spawnSync("yarn", [], { cwd: "next-website" });
+
     const fileContent = `export const ${
       contract.contractName
     }Abi = ${JSON.stringify(contract.abi, null, 2)} as const;\n`;
-    writeFileSync(pagesPath + `/${contract.contractName}Abi.ts`, fileContent);
 
-    spawnSync("cp", ["-r", "typechain-types", pagesPath]);
+    writeFileSync(
+      componentsPath + `/${contract.contractName}Abi.ts`,
+      fileContent
+    );
+
+    spawnSync("cp", ["-r", "typechain-types", componentsPath]);
 
     spawnSync("cp", ["ContractContextExample.ts", "ContractContext.ts"], {
-      cwd: pagesPath,
+      cwd: componentsPath,
     });
 
     replaceInFileSync({
-      files: pagesPath + "/ContractContext.ts",
+      files: componentsPath + "/ContractContext.ts",
       from: /\/\//g,
       to: "",
     });
 
     replaceInFileSync({
-      files: pagesPath + "/ContractContext.ts",
+      files: componentsPath + "/ContractContext.ts",
       from: /ToChangeAbi/g,
       to: contract.contractName + "Abi",
     });
 
     replaceInFileSync({
-      files: pagesPath + "/ContractContext.ts",
+      files: componentsPath + "/ContractContext.ts",
       from: /ToChangeType/g,
       to: contract.contractName,
     });
 
-    console.log("you can now go to : localhost:3000");
-    spawnSync("yarn", ["website"], {
-      cwd: pluginPath,
-      stdio: [0, 1, 2],
+    console.log("Baking your GUI...");
+
+    spawnSync("yarn", ["build"], {
+      cwd: "next-website",
+    });
+
+    console.log("You can now enjoy it on : localhost:3000");
+
+    spawnSync("yarn", ["start"], {
+      cwd: "next-website",
     });
   });
