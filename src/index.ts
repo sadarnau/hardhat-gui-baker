@@ -3,7 +3,7 @@ import { spawnSync } from "child_process";
 import { replaceInFileSync } from "replace-in-file";
 import { writeFileSync } from "fs";
 
-const componentsPath: string = "next-website/components";
+const componentsPath: string = "gui-baker/src/components";
 const plugin: string = "node_modules/hardhat-gui-baker";
 
 task("gui-baker", "Create a simple front to test your smartcontract")
@@ -30,9 +30,8 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     const contract = await hre.artifacts.readArtifact(taskArgs.contract);
 
     console.log("Creating your GUI recipe...");
-    const test = spawnSync("cp", ["-r", plugin + "/next-website", "."], {});
-
-    spawnSync("yarn", [], { cwd: "next-website" });
+    spawnSync("cp", ["-r", plugin + "/gui-baker", "."]);
+    spawnSync("yarn", [], { cwd: "gui-baker" });
 
     const fileContent = `export const ${
       contract.contractName
@@ -70,12 +69,12 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     console.log("Baking your GUI...");
 
     spawnSync("yarn", ["build"], {
-      cwd: "next-website",
+      cwd: "gui-baker",
     });
 
     console.log("You can now enjoy it on : localhost:3000");
 
     spawnSync("yarn", ["start"], {
-      cwd: "next-website",
+      cwd: "gui-baker",
     });
   });
