@@ -1,12 +1,16 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import FunctionConstant from "./FunctionConstant";
+import FunctionConstant from "../components/FunctionConstant";
 
 import { ethers, Contract } from "ethers";
-import Function from "./Function";
-import { ContractAbi, ContractType } from "./ContractContext";
+import Function from "../components/Function";
+import { ContractAbi, ContractType } from "../components/ContractContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ToggleButton from "./ToggleButton";
+import ToggleButton from "../components/ToggleButton";
+import { ExtractAbiFunctions } from "abitype";
+
+type test = ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
+type test2 = ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
 
 function FList({
   contract,
@@ -27,18 +31,22 @@ function FList({
 
   const writeComponents = displayWrite
     ? writeFx.map((arg) => (
-        <Function key={arg} functionName={arg} contract={contract} />
+        <Function key={arg} functionName={arg as test} contract={contract} />
       ))
     : [];
   const constComponents = displayConstant
     ? constFx.map((arg) => (
-        <FunctionConstant key={arg} functionName={arg} contract={contract} />
+        <FunctionConstant
+          key={arg}
+          functionName={arg as test2}
+          contract={contract}
+        />
       ))
     : [];
 
   if (writeComponents.length > 0)
-    return writeComponents.concat(constComponents);
-  return constComponents;
+    return <>{writeComponents.concat(constComponents)}</>;
+  return <>{constComponents}</>;
 }
 
 export default function Home() {
