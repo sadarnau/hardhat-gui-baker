@@ -18,13 +18,13 @@
     "test": "mocha --exit --recursive 'test/**/*.test.ts'",
     "build": "tsc",
     "watch": "tsc -w",
-    "website": "yarn --cwd next-website dev",
-    "deploy": "yarn h hardhat run scripts/deployTok.ts --network localhost",
-    "clean": "rm -rf dist && yarn --cwd next-website clean"
+    "website": "yarn --cwd gui-baker dev",
+    "clean": "rm -rf dist && yarn --cwd gui-baker clean"
   },
   "files": [
     "dist/src/",
-    "src/"
+    "src/",
+    "gui-baker/"
   ],
   "devDependencies": {
     "@types/chai": "^4.1.7",
