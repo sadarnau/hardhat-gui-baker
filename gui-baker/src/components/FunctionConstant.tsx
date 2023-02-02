@@ -48,7 +48,7 @@ function FunctionConstant({ contract, functionName }: Props) {
   };
 
   const { data, refetch: callMe } = useContractRead({
-    address: contract.address,
+    address: contract.address as `0x${string}`,
     abi: ContractAbi,
     functionName: functionName,
     enabled: false,

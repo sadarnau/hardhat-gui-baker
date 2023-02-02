@@ -52,7 +52,7 @@ function Function({ contract, functionName }: Props) {
     refetch: prepare,
     isSuccess: ready,
   } = usePrepareContractWrite({
-    address: contract.address,
+    address: contract.address as `0x${string}`,
     abi: ContractAbi,
     functionName: functionName,
     enabled: false,
