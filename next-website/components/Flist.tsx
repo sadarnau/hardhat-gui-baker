@@ -28,29 +28,29 @@ export function FList({ contract }: { contract: Contract }) {
     : [];
 
   return (
-    <div className="w-full">
-      <div className="flex justify-between">
-        <div className="w-full">
+    <div className="w-full grid grid-cols-2 gap-32">
+      {
+        <div>
           <ToggleButton
             on={displayWrite}
             setOn={setDisplayWrite}
             message={"Write Functions"}
             style={"input-primary"}
           />
+          {writeComponents}
         </div>
-        <div className="w-full ">
+      }
+      {
+        <div>
           <ToggleButton
             on={displayConstant}
             setOn={setDisplayConstant}
             message={"Constant Functions"}
             style={"input-info"}
           />
+          {constComponents}
         </div>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {<div>{writeComponents}</div>}
-        {<div>{constComponents}</div>}
-      </div>
+      }
     </div>
   );
 }
