@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { BsArrowDown, BsArrowRight } from "react-icons/bs";
 
 interface ToggleButtonProps {
   on: boolean;
@@ -21,6 +22,11 @@ export default function ToggleButton({
       }`}
     >
       {message}
+      {on ? (
+        <BsArrowDown className="ml-2" />
+      ) : (
+        <BsArrowRight className="ml-2" />
+      )}
     </button>
   );
 }

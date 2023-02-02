@@ -47,7 +47,7 @@ export function FList({ contract }: { contract: Contract }) {
           />
         </div>
       </div>
-      <div className="flex w-full justify-between">
+      <div className="grid grid-cols-2 gap-3">
         {<div>{writeComponents}</div>}
         {<div>{constComponents}</div>}
       </div>
