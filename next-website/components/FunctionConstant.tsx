@@ -1,5 +1,6 @@
 import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
+import { ParamType } from "ethers/src.ts/utils";
 import { useContractRead } from "wagmi";
 import {
   ExtractAbiFunctions,
@@ -21,7 +22,7 @@ type Props = {
   functionName: ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
 };
 
-function displayName(arg: any) {
+function displayName(arg: ParamType) {
   if (!arg.name) return arg.type;
   return `${arg.name} (${arg.type})`;
 }
@@ -60,8 +61,8 @@ function FunctionConstant({ contract, functionName }: Props) {
   });
 
   return (
-    <div className="my-5 grid grid-cols-12 w-[600px] ">
-      <div className="col-span-11">
+    <div className="mb-5 grid grid-cols-12">
+      <div className="mt-3 col-span-11">
         <h3 className={`${!nbArgs ? "inline" : ""} mr-4`}>
           {functionName.slice(0, functionName.indexOf("("))}
         </h3>
@@ -69,7 +70,7 @@ function FunctionConstant({ contract, functionName }: Props) {
           {contract.interface.functions[functionName].inputs.map((arg, i) => {
             return (
               <input
-                className="input input-secondary input-md h-8 border-2 mr-4"
+                className="input input-secondary input-md h-8 border-2 mt-1 mr-4"
                 key={arg.name}
                 placeholder={displayName(arg)}
                 {...register(arg.name)}
@@ -80,7 +81,7 @@ function FunctionConstant({ contract, functionName }: Props) {
       </div>
       <div className="flex flex-col justify-end">
         <button
-          className="min-h-8 w-14 btn btn-outline input-xs input-info border-2 h-6"
+          className="min-h-8 w-14 mb-0 btn btn-outline input-info input-xs border-2 h-6"
           onClick={handleSubmit(onSubmit)}
         >
           Read

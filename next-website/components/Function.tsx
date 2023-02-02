@@ -1,5 +1,6 @@
 import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
+import { ParamType } from "ethers/src.ts/utils";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
 import {
   ExtractAbiFunctions,
@@ -21,7 +22,7 @@ type Props = {
   functionName: ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
 };
 
-function displayName(arg: any) {
+function displayName(arg: ParamType) {
   if (!arg.name) return arg.type;
   return `${arg.name} (${arg.type})`;
 }
@@ -58,8 +59,7 @@ function Function({ contract, functionName }: Props) {
     enabled: false,
     args: Object.values(watch()) as any,
     onSuccess() {
-      // TO DO : check if exists
-      sendTransac!();
+      sendTransac();
     },
   });
 
@@ -71,7 +71,7 @@ function Function({ contract, functionName }: Props) {
   });
 
   return (
-    <div className="my-5 grid grid-cols-12 w-[600px] ">
+    <div className="mb-5 grid grid-cols-12">
       <div className="mt-3 col-span-11">
         <h3 className={`${!nbArgs ? "inline" : ""}`}>
           {functionName.slice(0, functionName.indexOf("("))}
