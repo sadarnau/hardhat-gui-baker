@@ -11,7 +11,7 @@ import {
 } from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import SuccessMessage from "./SuccesMessage";
+import SuccessMessage from "./SuccessMessage";
 import ErrorMessage from "./ErrorMessage";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 

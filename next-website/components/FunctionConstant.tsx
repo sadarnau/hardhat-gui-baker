@@ -17,7 +17,7 @@ import {
   ReturnValue,
 } from "@enzoferey/ethers-error-parser";
 import ErrorMessage from "./ErrorMessage";
-import SuccessMessage from "./SuccesMessage";
+import SuccessMessage from "./SuccessMessage";
 
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
