@@ -10,6 +10,7 @@
     "clean": "rm -rf .next next-env.d.ts"
   },
   "dependencies": {
+    "@enzoferey/ethers-error-parser": "^0.2.3",
     "@next/font": "13.1.5",
     "@rainbow-me/rainbowkit": "^0.8.1",
     "@types/node": "18.11.18",

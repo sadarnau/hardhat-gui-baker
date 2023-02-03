@@ -10,6 +10,10 @@ import {
   Abi,
 } from "abitype";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import SuccessMessage from "./SuccesMessage";
+import ErrorMessage from "./ErrorMessage";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 // TO DO : export in type file
 export type ExtractAbiFunctionParams<
@@ -32,6 +36,8 @@ function Function({ contract, functionName }: Props) {
     typeof ContractAbi,
     typeof functionName
   >;
+  const [result, setResult] = useState("");
+  const [error, setError] = useState("");
 
   const nbArgs = contract.interface.functions[functionName].inputs.length;
 
@@ -43,7 +49,7 @@ function Function({ contract, functionName }: Props) {
   } = useForm<Record<string, Result2>>();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    // console.log(data);
     await prepare();
     // ready ? sendTransac() : null;
   };
@@ -59,14 +65,24 @@ function Function({ contract, functionName }: Props) {
     enabled: false,
     args: Object.values(watch()) as any,
     onSuccess() {
-      sendTransac();
+      if (!sendTransaction) throw new Error("sendTransaction is not defined");
+      sendTransaction();
+    },
+    onError(error) {
+      const parsedEthersError = getParsedEthersError(error);
+      setError(parsedEthersError.errorCode + ": " + parsedEthersError.context);
     },
   });
 
-  const { data: dataTransac, writeAsync: sendTransac } = useContractWrite({
+  const { data: dataTransac, writeAsync: sendTransaction } = useContractWrite({
     ...config!,
     async onSuccess(data) {
-      console.log(await data.wait());
+      const receipt = await data.wait();
+      setResult(receipt.transactionHash);
+    },
+    onError(error) {
+      const parsedEthersError = getParsedEthersError(error);
+      setError(parsedEthersError.errorCode + ": " + parsedEthersError.context);
     },
   });
 
@@ -97,6 +113,8 @@ function Function({ contract, functionName }: Props) {
           Send
         </button>
       </div>
+      <SuccessMessage message={result} setResult={setResult} />
+      <ErrorMessage message={error} setError={setError} />
     </div>
   );
 }

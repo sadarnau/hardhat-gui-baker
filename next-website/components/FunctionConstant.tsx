@@ -11,6 +11,13 @@ import {
 } from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+import {
+  getParsedEthersError,
+  ReturnValue,
+} from "@enzoferey/ethers-error-parser";
+import ErrorMessage from "./ErrorMessage";
+import SuccessMessage from "./SuccesMessage";
 
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
@@ -33,6 +40,7 @@ function FunctionConstant({ contract, functionName }: Props) {
     typeof functionName
   >;
   const [result, setResult] = useState("");
+  const [error, setError] = useState("");
   const nbArgs = contract.interface.functions[functionName].inputs.length;
 
   const {
@@ -45,18 +53,21 @@ function FunctionConstant({ contract, functionName }: Props) {
   // TODO : change to func
   const onSubmit = (data: any) => {
     console.log(data);
-    callMe();
+    refetch();
   };
 
-  const { data, refetch: callMe } = useContractRead({
+  const { data, refetch } = useContractRead({
     address: contract.address,
     abi: ContractAbi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,
     onSuccess(data) {
-      console.log("Success", data);
       setResult(data.toString());
+    },
+    onError(error) {
+      const parsedEthersError = getParsedEthersError(error);
+      setError(parsedEthersError.errorCode + ": " + parsedEthersError.context);
     },
   });
 
@@ -81,13 +92,15 @@ function FunctionConstant({ contract, functionName }: Props) {
       </div>
       <div className="flex flex-col justify-end">
         <button
-          className="min-h-8 w-14 mb-0 btn btn-outline input-info input-xs border-2 h-6"
+          className="min-h-8 w-14 btn btn-outline input-info input-xs border-2 h-6"
           onClick={handleSubmit(onSubmit)}
         >
           Read
         </button>
       </div>
-      {result === "" ? null : <p className="inline ml-4">{result}</p>}
+
+      <SuccessMessage message={result} setResult={setResult} />
+      <ErrorMessage message={error} setError={setError} />
     </div>
   );
 }

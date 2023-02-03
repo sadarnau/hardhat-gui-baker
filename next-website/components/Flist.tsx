@@ -45,7 +45,7 @@ export function FList({ contract }: { contract: Contract }) {
           <ToggleButton
             on={displayConstant}
             setOn={setDisplayConstant}
-            message={"Constant Functions"}
+            message={"View Functions"}
             style={"input-info"}
           />
           {constComponents}
