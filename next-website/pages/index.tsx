@@ -2,9 +2,9 @@ import { ethers, Contract } from "ethers";
 import { ContractAbi, ContractType } from "../components/ContractContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { FList } from "../components/Flist";
+import Header from "../../gui-baker/src/components/Header";
+import Footer from "../../gui-baker/src/components/Footer";
+import { FList } from "../../gui-baker/src/components/Flist";
 
 export default function Home() {
   const [contract, setContract] = useState<Contract>();

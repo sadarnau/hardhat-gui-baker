@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@enzoferey/ethers-error-parser": "^0.2.3",
     "daisyui": "^2.50.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@rainbow-me/rainbowkit": "^0.8.1",
