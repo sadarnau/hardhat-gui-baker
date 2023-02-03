@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,17 +16,21 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "../gui-baker/src/components/FunctionConstant.tsx",
+    "../gui-baker/src/components/Function.tsx",
+    "../gui-baker/src/components/ErrorMessage.tsx",
+    "../gui-baker/src/components/Footer.tsx",
+    "../gui-baker/src/components/Header.tsx",
+    "../gui-baker/src/components/SuccessMessage.tsx",
+    "../gui-baker/src/components/ToggleButton.tsx",
+    "../gui-baker/src/components/Flist.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

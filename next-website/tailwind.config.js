@@ -17,17 +17,14 @@ module.exports = {
           primary: "#f28c18",
           "primary-content": "#131616",
           secondary: "#444444",
-
-          // secondary: "#FCDDF2",
           accent: "#51a800",
           neutral: "#1b1d1d",
-          //444444
           "base-100": "#212121",
-
+          test: "#f28c18",
           info: "#2563eb",
           success: "#16a34a",
           warning: "#d97706",
-          error: "#dc2626",
+          error: "#cc0000",
         },
       },
     ],
