@@ -11,9 +11,6 @@ import { FList } from "./components/Flist";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
-type test = ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
-type test2 = ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
-
 function App() {
   const [contract, setContract] = useState<Contract>();
   const {

@@ -1,6 +1,5 @@
-import { ContractAbi } from "../../../next-website/components/ContractContext";
+import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
-import { ParamType } from "ethers/src.ts/utils";
 import { useContractRead } from "wagmi";
 import {
   ExtractAbiFunctions,
@@ -29,7 +28,7 @@ type Props = {
   functionName: ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
 };
 
-function displayName(arg: ParamType) {
+function displayName(arg: any) {
   if (!arg.name) return arg.type;
   return `${arg.name} (${arg.type})`;
 }
