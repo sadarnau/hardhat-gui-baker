@@ -1,12 +1,7 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import FunctionConstant from "./components/FunctionConstant";
 import { ethers, Contract } from "ethers";
-import Function from "./components/Function";
 import { ContractAbi, ContractType } from "./components/ContractContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ToggleButton from "./components/ToggleButton";
-import { ExtractAbiFunctions } from "abitype";
 import { FList } from "./components/Flist";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -30,9 +25,6 @@ function App() {
       setContract(contract);
     } else console.log("bad addr");
   }
-
-  const [displayConstant, setDisplayConstant] = useState(true);
-  const [displayWrite, setDisplayWrite] = useState(true);
 
   return (
     <div>

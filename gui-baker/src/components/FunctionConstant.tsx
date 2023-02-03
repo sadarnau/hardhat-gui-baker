@@ -10,10 +10,8 @@ import {
 } from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { RxCross2 } from "react-icons/rx";
 import {
   getParsedEthersError,
-  ReturnValue,
 } from "@enzoferey/ethers-error-parser";
 import ErrorMessage from "./ErrorMessage";
 import SuccessMessage from "./SuccessMessage";

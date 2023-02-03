@@ -1,5 +1,4 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Dispatch, SetStateAction } from "react";
 
 // interface ToggleButtonProps {
 //   on: boolean;
