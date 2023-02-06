@@ -29,7 +29,11 @@ export function FList({ contract }: { contract: Contract }) {
     : [];
   const constComponents = displayConstant
     ? constFx.map((arg) => (
-        <FunctionConstant key={arg} functionName={arg as test2} contract={contract} />
+        <FunctionConstant
+          key={arg}
+          functionName={arg as test2}
+          contract={contract}
+        />
       ))
     : [];
 

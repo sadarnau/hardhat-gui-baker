@@ -1,7 +1,6 @@
 import { task } from "hardhat/config";
 import { spawnSync } from "child_process";
-import { replaceInFileSync } from "replace-in-file";
-import { existsSync, writeFileSync } from "fs";
+import { existsSync } from "fs";
 import { createGuiContext, exportAbiAndTypes } from "./utils";
 
 // TODO : add in a const file
