@@ -1,16 +1,11 @@
 import { Contract } from "ethers";
 import { useState } from "react";
-import { ContractAbi } from "./ContractContext";
+import { ConstFuncType, FuncType } from "../types/ContractTypes";
 import Function from "./Function";
 import FunctionConstant from "./FunctionConstant";
 import ToggleButton from "./ToggleButton";
-import { ExtractAbiFunctions } from "abitype";
 
-// TODO : export in a type file
-type test = ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
-type test2 = ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
-
-export function FList({ contract }: { contract: Contract }) {
+export function FuncList({ contract }: { contract: Contract }) {
   const [displayConstant, setDisplayConstant] = useState(true);
   const [displayWrite, setDisplayWrite] = useState(true);
 
@@ -24,14 +19,18 @@ export function FList({ contract }: { contract: Contract }) {
 
   const writeComponents = displayWrite
     ? writeFx.map((arg) => (
-        <Function key={arg} functionName={arg as test} contract={contract} />
+        <Function
+          key={arg}
+          functionName={arg as FuncType}
+          contract={contract}
+        />
       ))
     : [];
   const constComponents = displayConstant
     ? constFx.map((arg) => (
         <FunctionConstant
           key={arg}
-          functionName={arg as test2}
+          functionName={arg as ConstFuncType}
           contract={contract}
         />
       ))

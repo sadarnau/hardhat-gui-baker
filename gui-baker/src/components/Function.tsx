@@ -13,12 +13,7 @@ import { useState } from "react";
 import SuccessMessage from "./SuccessMessage";
 import ErrorMessage from "./ErrorMessage";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
-
-// TO DO : export in type file
-export type ExtractAbiFunctionParams<
-  TAbi extends Abi,
-  TMethod extends ExtractAbiFunctionNames<TAbi>
-> = AbiParametersToPrimitiveTypes<ExtractAbiFunction<TAbi, TMethod>["inputs"]>;
+import { ExtractAbiFunctionParams } from "../types/ContractTypes";
 
 type Props = {
   contract: Contract;

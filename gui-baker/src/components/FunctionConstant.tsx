@@ -3,10 +3,6 @@ import { Contract } from "ethers";
 import { useContractRead } from "wagmi";
 import {
   ExtractAbiFunctions,
-  ExtractAbiFunction,
-  AbiParametersToPrimitiveTypes,
-  ExtractAbiFunctionNames,
-  Abi,
 } from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -15,11 +11,7 @@ import {
 } from "@enzoferey/ethers-error-parser";
 import ErrorMessage from "./ErrorMessage";
 import SuccessMessage from "./SuccessMessage";
-
-export type ExtractAbiFunctionParams<
-  TAbi extends Abi,
-  TMethod extends ExtractAbiFunctionNames<TAbi>
-> = AbiParametersToPrimitiveTypes<ExtractAbiFunction<TAbi, TMethod>["inputs"]>;
+import { ExtractAbiFunctionParams } from "../types/ContractTypes";
 
 type Props = {
   contract: Contract;
@@ -32,10 +24,11 @@ function displayName(arg: any) {
 }
 
 function FunctionConstant({ contract, functionName }: Props) {
-  type Result2 = ExtractAbiFunctionParams<
-    typeof ContractAbi,
-    typeof functionName
-  >;
+	type FuncParams = ExtractAbiFunctionParams<
+  typeof ContractAbi,
+  typeof functionName
+>;
+
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
   const nbArgs = contract.interface.functions[functionName].inputs.length;
@@ -45,10 +38,9 @@ function FunctionConstant({ contract, functionName }: Props) {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Record<string, Result2>>();
+  } = useForm<Record<string, FuncParams>>();
 
-  // TODO : change to func
-  const onSubmit = (data: any) => {
+	function onSubmit (data: any) {
     console.log(data);
     refetch();
   };
@@ -60,7 +52,8 @@ function FunctionConstant({ contract, functionName }: Props) {
     enabled: false,
     args: Object.values(watch()) as any,
     onSuccess(data) {
-      setResult(data.toString());
+			// TODO : Check if data type
+      setResult(data!.toString());
     },
     onError(error) {
       const parsedEthersError = getParsedEthersError(error);

@@ -2,7 +2,7 @@ import { ethers, Contract } from "ethers";
 import { ContractAbi, ContractType } from "./components/ContractContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FList } from "./components/Flist";
+import { FuncList } from "./components/Funclist";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
@@ -42,7 +42,7 @@ function App() {
         >
           Submit
         </button>
-        {contract ? <FList contract={contract} /> : null}
+        {contract ? <FuncList contract={contract} /> : null}
         <Footer />
       </div>
     </div>

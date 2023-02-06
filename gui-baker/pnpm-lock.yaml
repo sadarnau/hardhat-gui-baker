@@ -6,6 +6,7 @@ specifiers:
   '@types/react': ^18.0.26
   '@types/react-dom': ^18.0.9
   '@vitejs/plugin-react': ^3.0.0
+  abitype: ^0.3.0
   autoprefixer: ^10.4.13
   daisyui: ^2.50.0
   ethers: ^5.7.2
@@ -21,6 +22,7 @@ specifiers:
 
 dependencies:
   '@enzoferey/ethers-error-parser': 0.2.3_ethers@5.7.2
+  abitype: 0.3.0_typescript@4.9.5
   daisyui: 2.50.0_gbtt6ss3tbiz4yjtvdr6fbrj44
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -1974,7 +1976,6 @@ packages:
         optional: true
     dependencies:
       typescript: 4.9.5
-    dev: true
 
   /acorn-node/1.8.2:
     resolution: {integrity: sha512-8mt+fslDufLYntIoPAaIMUe/lrbrehIiwmR3t2k9LljIzoigEPF27eLk2hy8zSGzmR/ogr7zbRKINMo1u0yh5A==}
@@ -4485,7 +4486,6 @@ packages:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /uint8arrays/3.1.0:
     resolution: {integrity: sha512-ei5rfKtoRO8OyOIor2Rz5fhzjThwIHJZ3uyDPnDHTXbP0aMQ1RN/6AI5B5d9dBxJOU+BvOAk7ZQ1xphsX8Lrog==}

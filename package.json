@@ -19,7 +19,7 @@
     "test": "mocha --exit --recursive 'test/**/*.test.ts'",
     "build": "tsc",
     "watch": "tsc -w",
-    "website": "yarn --cwd gui-baker dev",
+    "website": "pnpm -C gui-baker dev",
     "clean": "rm -rf dist && yarn --cwd gui-baker clean"
   },
   "files": [
