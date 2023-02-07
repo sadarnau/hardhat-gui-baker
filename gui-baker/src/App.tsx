@@ -1,5 +1,6 @@
 import { ethers, Contract } from "ethers";
-import { Contracts } from "./components/ContractContext";
+import { Contracts } from "./context/ContractContext";
+import { Erc20, Erc721 } from "./context/abis";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FuncList } from "./components/Funclist";
@@ -16,26 +17,31 @@ function App() {
     abi: [],
   });
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<{ address: string }>();
+  const { register, handleSubmit, setError } = useForm<{ address: string }>();
 
   function onSubmit(data: { address: string }) {
-    // TODO : check address with no caps
-    if (ethers.utils.isAddress(data.address)) {
-      console.log("good addr");
-      const contract = new ethers.Contract(data.address, selectedContract.abi);
+    if (ethers.utils.isAddress(data.address.toLowerCase())) {
+      const contract = new ethers.Contract(
+        ethers.utils.getAddress(data.address.toLowerCase()),
+        selectedContract.abi
+      );
       setContract(contract);
-    } else console.log("bad addr");
-    // TODO : throw error
+    } else {
+      setError("address", {
+        type: "value",
+        message: "This address is not an ethereum address.",
+      });
+    }
   }
 
   function handleSelectedContract(data: any) {
     const res = Contracts.find((x) => x.name === data.target.value);
     if (res) setSelectedContract(res as any);
+    else {
+      data.target.value === "Erc20"
+        ? setSelectedContract(Erc20 as any)
+        : setSelectedContract(Erc721 as any);
+    }
   }
 
   return (
@@ -62,25 +68,41 @@ function App() {
                   {contract.name}
                 </option>
               ))}
+              <option
+                key={Erc20.name}
+                value={Erc20.name}
+                className="btn-outline"
+              >
+                {Erc20.name}
+              </option>
+              <option
+                key={Erc721.name}
+                value={Erc721.name}
+                className="btn-outline"
+              >
+                {Erc721.name}
+              </option>
             </select>
           </div>
           {!selectedContract.name ? null : (
-            // TODO : input group
-            <>
-              {/* TODO : add verification onCahnge */}
-              <input
-                className="input input-secondary input-md h-8 border-2 w-96"
-                key="address"
-                placeholder="address"
-                {...register("address")}
-              />
-              <button
-                className="min-h-8 btn btn-outline input-xs input-success border-2"
-                onClick={handleSubmit(onSubmit)}
-              >
-                Submit
-              </button>
-            </>
+            <div className="form-control">
+              <div className="input-group">
+                <input
+                  className="input input-secondary input-md h-8 border-2 w-96"
+                  key="address"
+                  placeholder="address"
+                  {...register("address")}
+                />
+                {/* TODO : show error
+              {errors.address && <p>{errors.address.message}</p>}  */}
+                <button
+                  className="min-h-8 btn btn-outline input-xs border-2"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
           )}
         </div>
         <div className="divider"></div>

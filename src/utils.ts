@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 import { Artifact, HardhatRuntimeEnvironment } from "hardhat/types";
 
-const componentsPath: string = ".gui-baker/src/components";
+const contextPath: string = ".gui-baker/src/context";
 
 export async function parseContracts(hre: HardhatRuntimeEnvironment) {
   let nameList: string = "";
@@ -24,20 +24,20 @@ export function exportAbi(contract: Artifact) {
   }",
 	  abi: ${JSON.stringify(contract.abi, null, 2)} as const,\n}`;
 
-  writeFileSync(componentsPath + `/${contract.contractName}.ts`, fileContent);
+  writeFileSync(contextPath + `/${contract.contractName}.ts`, fileContent);
 }
 
 export function addContractToContext(contractName: string) {
   const fileContent = `import { ${contractName} } from "./${contractName}";\n`;
 
-  writeFileSync(componentsPath + `/ContractContext.ts`, fileContent, {
+  writeFileSync(contextPath + `/ContractContext.ts`, fileContent, {
     flag: "a",
   });
 }
 export function addExportToContext(nameList: string) {
   const fileContent = `export const Contracts = [${nameList}];`;
 
-  writeFileSync(componentsPath + `/ContractContext.ts`, fileContent, {
+  writeFileSync(contextPath + `/ContractContext.ts`, fileContent, {
     flag: "a",
   });
 }
