@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "@enzoferey/ethers-error-parser": "^0.2.3",
-    "@headlessui/react": "^1.7.10",
-    "@headlessui/tailwindcss": "^0.1.2",
     "@types/node": "^18.11.19",
     "abitype": "^0.3.0",
     "daisyui": "^2.50.0",

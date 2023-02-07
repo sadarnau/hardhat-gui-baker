@@ -1,12 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
-// interface ToggleButtonProps {
-//   on: boolean;
-//   setOn: Dispatch<SetStateAction<boolean>>;
-//   message: string;
-//   color: string;
-// }
-
 export default function Footer() {
   return (
     <footer className="footer items-center p-4 bg-base-300 text-neutral-content">

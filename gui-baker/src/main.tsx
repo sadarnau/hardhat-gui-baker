@@ -23,7 +23,6 @@ const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum, hardhat],
   [
     publicProvider(),
-    // alchemyProvider({ apiKey: process.env.ALCHEMY_ID })
     jsonRpcProvider({
       rpc: () => ({
         http: `http://127.0.0.1:8545/`,

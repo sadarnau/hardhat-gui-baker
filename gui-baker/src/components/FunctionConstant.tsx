@@ -87,7 +87,6 @@ function FunctionConstant({ contract, abi, functionName }: Props) {
           Read
         </button>
       </div>
-
       <SuccessMessage message={result} setResult={setResult} />
       <ErrorMessage message={error} setError={setError} />
     </div>
