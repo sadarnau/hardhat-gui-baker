@@ -1,43 +1,43 @@
-import { spawnSync } from "child_process";
 import { writeFileSync } from "fs";
-import { Artifact } from "hardhat/types";
-import { replaceInFileSync } from "replace-in-file";
+import { Artifact, HardhatRuntimeEnvironment } from "hardhat/types";
 
-const componentsPath: string = "gui-baker/src/components";
+const componentsPath: string = ".gui-baker/src/components";
 
-export function exportAbiAndTypes(contract: Artifact) {
-  const fileContent = `export const ${
-    contract.contractName
-  }Abi = ${JSON.stringify(contract.abi, null, 2)} as const;\n`;
-
-  writeFileSync(
-    componentsPath + `/${contract.contractName}Abi.ts`,
-    fileContent
-  );
-
-  spawnSync("cp", ["-r", "typechain-types", componentsPath]);
+export async function parseContracts(hre: HardhatRuntimeEnvironment) {
+  let nameList: string = "";
+  const artifatcsName = await hre.artifacts.getAllFullyQualifiedNames();
+  for (const name of artifatcsName) {
+    if (name.includes("@openzeppelin")) {
+      continue;
+    }
+    const contract: Artifact = await hre.artifacts.readArtifact(name);
+    exportAbi(contract);
+    addContractToContext(contract.contractName);
+    nameList += contract.contractName + ",";
+  }
+  addExportToContext(nameList.slice(0, -1));
 }
 
-export function createGuiContext(contractName: string) {
-  spawnSync("cp", ["ContractContextExample.ts", "ContractContext.ts"], {
-    cwd: componentsPath,
-  });
+export function exportAbi(contract: Artifact) {
+  const fileContent = `export const ${contract.contractName} = {\nname: "${
+    contract.contractName
+  }",
+	  abi: ${JSON.stringify(contract.abi, null, 2)} as const,\n}`;
 
-  replaceInFileSync({
-    files: componentsPath + "/ContractContext.ts",
-    from: /\/\//g,
-    to: "",
-  });
+  writeFileSync(componentsPath + `/${contract.contractName}.ts`, fileContent);
+}
 
-  replaceInFileSync({
-    files: componentsPath + "/ContractContext.ts",
-    from: /ToChangeAbi/g,
-    to: contractName + "Abi",
-  });
+export function addContractToContext(contractName: string) {
+  const fileContent = `import { ${contractName} } from "./${contractName}";\n`;
 
-  replaceInFileSync({
-    files: componentsPath + "/ContractContext.ts",
-    from: /ToChangeType/g,
-    to: contractName,
+  writeFileSync(componentsPath + `/ContractContext.ts`, fileContent, {
+    flag: "a",
+  });
+}
+export function addExportToContext(nameList: string) {
+  const fileContent = `export const Contracts = [${nameList}];`;
+
+  writeFileSync(componentsPath + `/ContractContext.ts`, fileContent, {
+    flag: "a",
   });
 }

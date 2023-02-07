@@ -1,9 +1,6 @@
-import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
 import { useContractRead } from "wagmi";
-import {
-  ExtractAbiFunctions,
-} from "abitype";
+import { ExtractAbiFunctions, Abi} from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import {
@@ -15,7 +12,9 @@ import { ExtractAbiFunctionParams } from "../types/ContractTypes";
 
 type Props = {
   contract: Contract;
-  functionName: ExtractAbiFunctions<typeof ContractAbi, "view">["name"];
+	abi: Abi;
+
+  functionName:string;
 };
 
 function displayName(arg: any) {
@@ -23,9 +22,9 @@ function displayName(arg: any) {
   return `${arg.name} (${arg.type})`;
 }
 
-function FunctionConstant({ contract, functionName }: Props) {
+function FunctionConstant({ contract, abi, functionName }: Props) {
 	type FuncParams = ExtractAbiFunctionParams<
-  typeof ContractAbi,
+  typeof abi,
   typeof functionName
 >;
 
@@ -47,7 +46,7 @@ function FunctionConstant({ contract, functionName }: Props) {
 
   const { data, refetch } = useContractRead({
     address: contract.address as `0x${string}`,
-    abi: ContractAbi,
+    abi: abi,
     functionName: functionName,
     enabled: false,
     args: Object.values(watch()) as any,

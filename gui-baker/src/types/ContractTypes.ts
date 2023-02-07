@@ -1,4 +1,4 @@
-import { ContractAbi } from "../components/ContractContext";
+// import { Contracts } from "../components/ContractContextExample";
 import {
   ExtractAbiFunctions,
   ExtractAbiFunction,
@@ -7,14 +7,8 @@ import {
   Abi,
 } from "abitype";
 
-export type FuncType = ExtractAbiFunctions<
-  typeof ContractAbi,
-  "nonpayable"
->["name"];
-export type ConstFuncType = ExtractAbiFunctions<
-  typeof ContractAbi,
-  "view"
->["name"];
+export type FuncType = ExtractAbiFunctions<Abi, "nonpayable">["name"];
+export type ConstFuncType = ExtractAbiFunctions<Abi, "view">["name"];
 export type ExtractAbiFunctionParams<
   TAbi extends Abi,
   TMethod extends ExtractAbiFunctionNames<TAbi>
