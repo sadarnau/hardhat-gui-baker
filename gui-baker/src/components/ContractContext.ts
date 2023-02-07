@@ -1,7 +1,3 @@
- import { SamTokenAbi } from "./SamTokenAbi";
- import { SamToken } from "./typechain-types/contracts/SamToken";
-
- export const ContractAbi = SamTokenAbi;
- export interface ContractType extends SamToken {}
-
-export {};
+import { Lock } from "./Lock";
+import { TestToken } from "./TestToken";
+export const Contracts = [Lock, TestToken];

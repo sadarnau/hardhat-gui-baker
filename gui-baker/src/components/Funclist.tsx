@@ -5,7 +5,13 @@ import Function from "./Function";
 import FunctionConstant from "./FunctionConstant";
 import ToggleButton from "./ToggleButton";
 
-export function FuncList({ contract }: { contract: Contract }) {
+type Props = {
+  contract: Contract;
+  contractAbi: any;
+};
+
+// TODO : change any
+export function FuncList({ contract, contractAbi }: Props) {
   const [displayConstant, setDisplayConstant] = useState(true);
   const [displayWrite, setDisplayWrite] = useState(true);
 
@@ -23,6 +29,7 @@ export function FuncList({ contract }: { contract: Contract }) {
           key={arg}
           functionName={arg as FuncType}
           contract={contract}
+          abi={contractAbi}
         />
       ))
     : [];
@@ -32,6 +39,7 @@ export function FuncList({ contract }: { contract: Contract }) {
           key={arg}
           functionName={arg as ConstFuncType}
           contract={contract}
+          abi={contractAbi}
         />
       ))
     : [];

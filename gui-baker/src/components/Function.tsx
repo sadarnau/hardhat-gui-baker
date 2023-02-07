@@ -1,13 +1,6 @@
-import { ContractAbi } from "./ContractContext";
 import { Contract } from "ethers";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
-import {
-  ExtractAbiFunctions,
-  ExtractAbiFunction,
-  AbiParametersToPrimitiveTypes,
-  ExtractAbiFunctionNames,
-  Abi,
-} from "abitype";
+import { ExtractAbiFunctions, Abi} from "abitype";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import SuccessMessage from "./SuccessMessage";
@@ -15,9 +8,11 @@ import ErrorMessage from "./ErrorMessage";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 import { ExtractAbiFunctionParams } from "../types/ContractTypes";
 
+
 type Props = {
   contract: Contract;
-  functionName: ExtractAbiFunctions<typeof ContractAbi, "nonpayable">["name"];
+	abi: Abi;
+  functionName: string
 };
 
 function displayName(arg: any) {
@@ -25,9 +20,9 @@ function displayName(arg: any) {
   return `${arg.name} (${arg.type})`;
 }
 
-function Function({ contract, functionName }: Props) {
+function Function({ contract, abi, functionName }: Props) {
   type Result2 = ExtractAbiFunctionParams<
-    typeof ContractAbi,
+    typeof abi,
     typeof functionName
   >;
   const [result, setResult] = useState("");
@@ -43,41 +38,14 @@ function Function({ contract, functionName }: Props) {
   } = useForm<Record<string, Result2>>();
 
   const onSubmit = async (data: any) => {
-    // console.log(data);
-    await prepare();
-    // ready ? sendTransac() : null;
+		await sendTransaction({ recklesslySetUnpreparedArgs: Object.values(data) });
   };
 
-  const {
-    data: config,
-    refetch: prepare,
-    isSuccess: ready,
-  } = usePrepareContractWrite({
-    address: contract.address as `0x${string}`,
-    abi: ContractAbi,
-    functionName: functionName,
-    enabled: false,
-    args: Object.values(watch()) as any,
-    onSuccess() {
-      if (!sendTransaction) throw new Error("sendTransaction is not defined");
-      sendTransaction();
-    },
-    onError(error) {
-      const parsedEthersError = getParsedEthersError(error);
-      setError(parsedEthersError.errorCode + ": " + parsedEthersError.context);
-    },
-  });
-
   const { data: dataTransac, writeAsync: sendTransaction } = useContractWrite({
-    ...config!,
-    async onSuccess(data) {
-      const receipt = await data.wait();
-      setResult(receipt.transactionHash);
-    },
-    onError(error) {
-      const parsedEthersError = getParsedEthersError(error);
-      setError(parsedEthersError.errorCode + ": " + parsedEthersError.context);
-    },
+    address: contract.address as `0x${string}`,
+    abi: abi,
+    functionName: functionName,
+    mode: "recklesslyUnprepared",
   });
 
   return (
