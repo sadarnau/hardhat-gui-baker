@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import {  connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import {  RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, hardhat } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { publicProvider } from "wagmi/providers/public";
 import {
   injectedWallet,
   rainbowWallet,
@@ -21,6 +22,7 @@ import {
 const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum, hardhat],
   [
+    publicProvider(),
     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID })
     jsonRpcProvider({
       rpc: () => ({

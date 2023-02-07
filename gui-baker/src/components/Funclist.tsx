@@ -45,14 +45,14 @@ export function FuncList({ contract, contractAbi }: Props) {
     : [];
 
   return (
-    <div className="w-full grid grid-cols-2 gap-32">
+    <div className="grid grid-cols-2 gap-32">
       {
         <div>
           <ToggleButton
             on={displayWrite}
             setOn={setDisplayWrite}
             message={"Write Functions"}
-            style={"input-primary"}
+            style={"input-info"}
           />
           {writeComponents}
         </div>

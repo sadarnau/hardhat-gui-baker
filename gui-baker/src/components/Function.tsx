@@ -69,7 +69,7 @@ function Function({ contract, abi, functionName }: Props) {
       </div>
       <div className="flex flex-col justify-end ">
         <button
-          className="min-h-8 w-14 mb-0 btn btn-outline input-primary input-xs border-2 h-6"
+          className="min-h-8 w-14 mb-0 btn btn-outline input-info input-xs border-2 h-6"
           onClick={handleSubmit(onSubmit)}
         >
           Send
