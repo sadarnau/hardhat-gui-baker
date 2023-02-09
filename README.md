@@ -33,12 +33,10 @@ import "hardhat-gui-baker";
 This plugin adds the gui-baker task to Hardhat:
 
 ```
-Usage: hardhat [GLOBAL OPTIONS] gui-baker --contract <STRING> [--opt-deploy <STRING>] [--opt-network <STRING>]
+Usage: hardhat [GLOBAL OPTIONS] gui-baker [--opt-network <STRING>]
 
 OPTIONS:
 
-  --contract    The contract name
-  --opt-deploy  Optional : Path to the deploy script
   --opt-network Optional : Wich network will be used
 ```
 
@@ -84,18 +82,11 @@ hardhat run scripts/deploy.ts
 bake your GUI :
 
 ```
-hardhat gui-baker --contract ContractName
+hardhat gui-baker
 ```
 
-enjoy your bakery on : _localhost:3000_
+enjoy your bakery on : _localhost:4157_
 
-or simply use optionals params :
-
-```
-hardhat gui-baker --contract ContractName --opt-deploy scrpits/deploys.ts --opt-network localhost
-```
-
-\
 <br/><br/>
 
 ### contribution

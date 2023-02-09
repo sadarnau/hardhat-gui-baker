@@ -13,7 +13,7 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     // TODO : if network params, lanch node
     // await hre.run("node");
 
-    console.log("Creating your GUI recipe...");
+    console.log("\nCreating your GUI recipe...");
     if (!existsSync(".gui-baker")) {
       spawnSync("cp", ["-r", frontPath, ".gui-baker"]);
       // TODO : npm for portability
@@ -25,12 +25,10 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     console.log("Baking your GUI...");
     spawnSync("pnpm", ["build"], {
       cwd: ".gui-baker",
-      stdio: "inherit",
     });
 
     console.log("You can now enjoy it on : localhost:4173");
     spawnSync("pnpm", ["preview"], {
       cwd: ".gui-baker",
-      stdio: "inherit",
     });
   });
