@@ -1,6 +1,6 @@
 {
   "name": "hardhat-gui-baker",
-  "version": "0.0.1",
+  "version": "0.0.66",
   "description": "Hardhat plugin to bake GUI for tastfull smartcontracts",
   "author": "Sam",
   "license": "MIT",
