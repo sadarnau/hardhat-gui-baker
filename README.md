@@ -4,7 +4,7 @@ _A simple plugin that automatically generate GUI for smartcontracts_
 
 ## What
 
-This plugin will help you quickly test smartcontracts by creating a website in next so you can interact with it. You will have access to all your functions and a toolkit to impersonate accounts on the go or receive ERC20.
+This plugin will help you quickly test smartcontracts by localy creating a website in next so you can interact with it. You will have access to all your functions and a toolkit to impersonate accounts on the go or receive ERC20.
 
 ## Installation
 
@@ -85,10 +85,10 @@ bake your GUI :
 hardhat gui-baker
 ```
 
-enjoy your bakery on : _localhost:4157_
+enjoy your bakery on defalut : _localhost:4157_
 
 <br/><br/>
 
-### contribution
+### Contribution
 
 Thanks to [gdupont](https://github.com/GuiDupont) and [Solal Dunckel](https://github.com/solaldunckel)

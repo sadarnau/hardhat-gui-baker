@@ -1,21 +1,28 @@
-import { writeFileSync } from "fs";
+import { existsSync, unlinkSync, writeFileSync } from "fs";
 import { Artifact, HardhatRuntimeEnvironment } from "hardhat/types";
 
 const contextPath: string = ".gui-baker/src/context";
 
 export async function parseContracts(hre: HardhatRuntimeEnvironment) {
+  deleteExistingContext();
   let nameList: string = "";
   const artifatcsName = await hre.artifacts.getAllFullyQualifiedNames();
+
   for (const name of artifatcsName) {
-    if (name.includes("@openzeppelin")) {
-      continue;
-    }
-    const contract: Artifact = await hre.artifacts.readArtifact(name);
+    if (name.includes("@openzeppelin")) continue;
+
+    const contract = await hre.artifacts.readArtifact(name);
     exportAbi(contract);
     addContractToContext(contract.contractName);
     nameList += contract.contractName + ",";
   }
+
   addExportToContext(nameList.slice(0, -1));
+}
+
+export function deleteExistingContext() {
+  if (existsSync(contextPath + `/ContractContext.ts`))
+    unlinkSync(contextPath + `/ContractContext.ts`);
 }
 
 export function exportAbi(contract: Artifact) {
@@ -34,6 +41,7 @@ export function addContractToContext(contractName: string) {
     flag: "a",
   });
 }
+
 export function addExportToContext(nameList: string) {
   const fileContent = `export const Contracts = [${nameList}];`;
 
