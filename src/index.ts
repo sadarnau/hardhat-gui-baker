@@ -1,12 +1,13 @@
-import { task } from "hardhat/config";
+import { findRootSync } from "@manypkg/find-root";
 import { spawnSync } from "child_process";
 import { existsSync } from "fs";
+import { task } from "hardhat/config";
+
 import { parseContracts } from "./utils";
-import { findRootSync } from "@manypkg/find-root";
 
 const baseVitePath: string = "/node_modules/hardhat-gui-baker/gui-baker";
 
-task("gui-baker", "Create a simple front to test your smartcontract")
+task("gui-baker", "Create a simple Gui to test your smartcontracts")
   .addOptionalParam(
     "optPort",
     "Optional : Wich port will be used to expose the GUI"
@@ -22,8 +23,9 @@ task("gui-baker", "Create a simple front to test your smartcontract")
     const vitePath = root.rootDir + baseVitePath;
 
     console.log("\nCreating your GUI recipe...");
-    if (!existsSync(".gui-baker"))
+    if (!existsSync(".gui-baker")) {
       spawnSync("cp", ["-r", vitePath, ".gui-baker"], { stdio: logs });
+    }
 
     spawnSync("npm", ["i"], { cwd: ".gui-baker", stdio: logs });
     await parseContracts(hre);

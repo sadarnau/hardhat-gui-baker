@@ -1,14 +1,18 @@
 # hardhat-gui-baker
 
-_A simple plugin that automatically generate GUI for smartcontracts_
+_A simple plugin that automatically generates GUI for smartcontracts_
 
 ## What
 
-This plugin will help you quickly test smartcontracts by localy creating a website in next so you can interact with it. You will have access to all your functions and a toolkit to impersonate accounts on the go or receive ERC20.
+This plugin will help you quickly test smartcontracts by locally creating a website in [viteJs](https://vitejs.dev/) so you can interact with it. You will have access to all your functions and a toolkit to impersonate accounts on the go or receive ERC20.
 
 ## Installation
 
 ```sh
+pnpm i hardhat-gui-baker
+
+yarn add hardhat-gui-baker
+
 npm install hardhat-gui-baker
 ```
 
@@ -24,44 +28,20 @@ Or if you are using TypeScript, in your `hardhat.config.ts`:
 import "hardhat-gui-baker";
 ```
 
-<!-- ## Required plugins
-
-- [wighawag/hardhat-deploy](https://github.com/wighawag/hardhat-deploy) -->
-
 ## Tasks
 
 This plugin adds the gui-baker task to Hardhat:
 
 ```
-Usage: hardhat [GLOBAL OPTIONS] gui-baker [--opt-network <STRING>]
+Usage: hardhat [GLOBAL OPTIONS] gui-baker [--opt-port <STRING>] [--show-logs]
 
 OPTIONS:
 
-  --opt-network Optional : Wich network will be used
+  --opt-port    Optional : Wich port will be used to expose the GUI
+  --show-logs   Show logs
+
+gui-baker: Create a simple Gui to test your smartcontracts
 ```
-
-<!--
-## Environment extensions
-
-
-This plugin extends the Hardhat Runtime Environment by adding an `example` field
-whose type is `ExampleHardhatRuntimeEnvironmentField`. -->
-<!--
-## Configuration
-
-<_A description of each extension to the HardhatConfig or to its fields_>
-
-This plugin extends the `HardhatUserConfig`'s `ProjectPathsUserConfig` object with an optional
-`newPath` field.
-
-This is an example of how to set it:
-
-```js
-module.exports = {
-  paths: {
-    newPath: "new-path",
-  },
-}; -->
 
 ## Usage
 
@@ -69,23 +49,35 @@ module.exports = {
 
 lanch your node :
 
-```
-hardhat node
+```sh
+npm hardhat node
 ```
 
 deploy your smartcontract :
 
-```
-hardhat run scripts/deploy.ts
+```sh
+npm hardhat run pathToYourDeployementScript.ts
 ```
 
 bake your GUI :
 
-```
-hardhat gui-baker
+```sh
+npm hardhat gui-baker
 ```
 
-enjoy your bakery on defalut : _localhost:4157_
+enjoy your bakery on (defalut) : _https://localhost:4157_
+
+You will need to connect your wallet and be able to interact with your contract, that's it!
+
+## Whats next ?
+
+- A configuration page will soon be added so that you will have to possibility to add all contract addresses only once.
+
+- Switch from ethers to viem.sh.
+
+- Basic rpc tools to change the BlockTime, BlockNumber...
+
+- Integration of Hardhat network tools like impersonating accounts, resetting the node...
 
 <br/><br/>
 
