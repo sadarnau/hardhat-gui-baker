@@ -1,11 +1,8 @@
-import { task, types } from "hardhat/config";
+import { task } from "hardhat/config";
 import { spawnSync } from "child_process";
 import { existsSync } from "fs";
 import { parseContracts } from "./utils";
 import { findRootSync } from "@manypkg/find-root";
-import { exit } from "process";
-
-// TODO : take care of monorepos
 
 const baseVitePath: string = "/node_modules/hardhat-gui-baker/gui-baker";
 
