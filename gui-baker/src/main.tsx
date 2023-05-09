@@ -8,7 +8,6 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, hardhat } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { publicProvider } from "wagmi/providers/public";
 import {
   injectedWallet,
   rainbowWallet,
@@ -22,7 +21,6 @@ import {
 const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum, hardhat],
   [
-    publicProvider(),
     jsonRpcProvider({
       rpc: () => ({
         http: `http://127.0.0.1:8545/`,
