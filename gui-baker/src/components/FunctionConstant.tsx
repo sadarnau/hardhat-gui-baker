@@ -71,9 +71,9 @@ function FunctionConstant({ contract, abi, functionName }: Props) {
             return (
               <input
                 className="input input-secondary input-md h-8 border-2 mt-1 mr-4"
-                key={arg.name}
+								key={arg.name ? arg.name : arg.type}
                 placeholder={displayName(arg)}
-                {...register(arg.name)}
+                {...register(arg.name ? arg.name : arg.type)}
               />
             );
           })}
